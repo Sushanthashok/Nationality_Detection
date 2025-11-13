@@ -211,7 +211,6 @@ TFLite/ONNX optimization
 
 Real-time webcam mode
 
-# Implementation video : [video](https://drive.google.com/file/d/1SDp7J5UU-akh5pnp5u4kxefXmPo7YvSU/view?usp=sharing)
 
 ## 🏁 Conclusion
 
@@ -228,4 +227,10 @@ Dataset engineering
 UI/UX design
 
 Deployment skills
+
+
+## Implementation video : [video](https://drive.google.com/file/d/1SDp7J5UU-akh5pnp5u4kxefXmPo7YvSU/view?usp=sharing)
+
+
+# THANK YOU
 
