@@ -30,6 +30,7 @@ Provide internship-ready, industry-standard implementation
 
 ## 🏗 System Architecture
 
+```text
 Input Image  
    ↓  
 MTCNN Face Detection  
@@ -43,6 +44,7 @@ Face Crop
   Nationality  Emotion  Age   Dress Color
       ↓          ↓       ↓        ↓
   Conditional Output Logic → Final UI Result
+```
 
 ## 🗂 Dataset Details
 
@@ -136,6 +138,9 @@ Color confidence display
 Works fully offline
 
 ## 📁 Project Structure
+
+```text
+
 Nationality_detection/
 │
 ├── app.py
@@ -154,6 +159,7 @@ Nationality_detection/
 │   └── nationality_labels.json
 │
 └── README.md
+```
 
 ## ⚙️ Installation
 pip install streamlit tensorflow mtcnn opencv-python pillow numpy seaborn
