@@ -1,34 +1,94 @@
-### 🌍 NATIONALITY DETECTION
+# 🧭 Nationality Detection
 
-Author: SUSHANTH A
+## 📌 Problem Statement
 
-## 🧠 Project Overview
+The objective of this project is to develop an intelligent computer vision system capable of analyzing a person's face and predicting:
 
-This project implements an advanced deep learning–based multi-task prediction system that analyzes a person’s face and predicts:
+Nationality
 
-🟦 Nationality (Indian, United States, African, Other)
+Emotion
 
-😊 Emotion (7-class MobileNetV2 model)
+Age (estimated)
 
-🎂 Age (rule-based placeholder)
+Dress color (dominant upper-body region)
 
-👕 Dress Color (KMeans dominant color detection)
+The system follows conditional logic:
 
-A clean Streamlit UI allows users to upload images, preview detected faces, and view all predicted attributes interactively.
+| Nationality       | Required Predictions      |
+| ----------------- | ------------------------- |
+| **Indian**        | Emotion, Age, Dress Color |
+| **United States** | Emotion, Age              |
+| **African**       | Emotion, Dress Color      |
+| **Other**         | Emotion only              |
 
-## 🎯 Objectives
+The solution must also include:
 
-Build a full ML pipeline (data → training → evaluation → deployment)
+A real-time GUI created with Streamlit
 
-Detect faces reliably using MTCNN
+Automatic face detection using MTCNN
 
-Perform multi-task predictions with conditional logic
+Ability to handle multiple faces in a single image
 
-Deploy a production-ready Streamlit GUI
+This project demonstrates the integration of multi-task deep learning, computer vision pipelines, and practical GUI deployment.
 
-Provide internship-ready, industry-standard implementation
+## 📁 Dataset
+1. Nationality Dataset – FairFace (Kaggle)
 
-## 🏗 System Architecture
+Source: FairFace – A Balanced Race & Gender Dataset
+
+Used for training a 4-class nationality classifier:
+
+Indian
+
+United States
+
+African
+
+Other
+
+Steps performed:
+
+Extracted face images using FairFace labels
+
+Balanced dataset using build_nationality_dataset.py (3000 images per class)
+
+Preprocessed images to 224×224 resolution
+
+## 2. Emotion Dataset – FER2013 (Kaggle)
+
+Used for training a 7-class emotion classifier:
+
+Angry
+
+Disgust
+
+Fear
+
+Happy
+
+Sad
+
+Surprise
+
+Neutral
+
+Preprocessing steps:
+
+Converted pixels → images
+
+Augmentation
+
+Split into training & validation sets
+
+## 3. Additional Components
+
+Age estimation → placeholder (randomized)
+
+Dress color → simple RGB-based region analysis
+
+## 🧠 Methodology
+
+Below is the complete pipeline followed by the system:
 
 ```text
 Input Image  
@@ -44,189 +104,142 @@ Face Crop
   Nationality  Emotion  Age   Dress Color
       ↓          ↓       ↓        ↓
   Conditional Output Logic → Final UI Result
+
 ```
 
-## 🗂 Dataset Details
+### 1. Face Detection
 
-# 🔹 1. Nationality Dataset
+MTCNN used to detect bounding boxes
 
-Created using FairFace (train + val).
-Balanced 4-class dataset:
+Largest face selected if multiple faces
 
-1) Indian
+### 2. Nationality Classification (MobileNetV2)
 
-2) United States
+Trained with transfer learning
 
-3) African
+Softmax output → top-3 predictions shown
 
-4) Other
+### 3. Emotion Classification (MobileNetV2)
 
-Each class: 3000 face images → 12,000 total
+FER2013 dataset
 
-## Folder structure:
+Predicts 7 emotions
 
-data/nationality/
-    Indian/
-    United States/
-    African/
-    Other/
+### 4. Age Estimation
 
-# 🔹 2. Emotion Dataset (FER-2013)
+Lightweight placeholder
 
-7 emotion classes
+Can be upgraded to a regression model
 
-~35k training images
+### 5. Dress Color Detection
 
-Used for MobileNetV2 training
+Extract upper-body ROI
 
-## 🧪 Model Training
+Compute average RGB
 
-🟦 Nationality Model
+Map dominant values → color name
 
-Backbone: MobileNetV2
+## 📊 Results
+Emotion Model (FER2013)
 
-Input: 224×224
+✔ Validation Accuracy: 58%
+✔ Good performance on real-world images
+✔ Works smoothly with Streamlit
 
-Loss: Categorical Crossentropy
+Nationality Model (FairFace)
 
-Optimizer: Adam
+✔ Validation Accuracy: ~49%
+✔ Fine-tuned with MobileNetV2
+✔ Balanced dataset improved consistency
 
-Epochs: 12 + 4 (fine-tuning)
+Confusion matrix and label distribution files generated:
 
-Validation Accuracy: ≈ 48–50%
+nationality_confusion_matrix.png
 
-## 😊 Emotion Model
+nationality_labels.json
 
-Backbone: MobileNetV2
+## Streamlit Application Output
 
-Accuracy: ≈ 58%
+The UI displays:
 
-## 🎨 Dress Color Detection
+Cropped face
 
-Torso extraction based on face box
+Nationality + confidence
 
-HSV filtering
+Emotion + confidence
 
-KMeans clustering
+Age (estimated)
 
-Maps dominant color to 11 named colors
+Dress color (if applicable)
 
-## 🎂 Age Prediction
+Top-3 nationality predictions
 
-Simple placeholder generating realistic ages (18–40)
+The system can identify multiple faces in an image.
 
-## 🖥 Streamlit Application
+## 🛠 Technologies Used
 
-Features:
+Python
 
-Face detection (MTCNN)
+TensorFlow / Keras
 
-Smart largest-face filtering
+OpenCV
 
-Cropped face preview
+MTCNN
 
-Nationality prediction
+NumPy
 
-Emotion prediction
+Streamlit
 
-Conditional logic for age/dress color
+Scikit-learn
 
-Top-3 nationality scores
+Matplotlib / Seaborn
 
-Color confidence display
+## ▶️ How to Run the App
 
-Works fully offline
+1. Install dependencies
 
-## 📁 Project Structure
+pip install -r requirements.txt
 
-```text
+2. Place models in the models/ folder
 
-Nationality_detection/
-│
-├── app.py
-├── train_emotion.py
-├── train_nationality.py
-├── eval_nationality.py
-├── build_nationality_dataset.py
-│
-├── data/
-│   ├── nationality/
-│   └── emotion/
-│
-├── models/
-│   ├── emotion_mobilenetv2.h5
-│   ├── nationality_mobilenetv2.h5
-│   └── nationality_labels.json
-│
-└── README.md
-```
+models/
+ ├── emotion_mobilenetv2.h5
+ ├── nationality_mobilenetv2.h5
+ └── nationality_labels.json
 
-## ⚙️ Installation
-pip install streamlit tensorflow mtcnn opencv-python pillow numpy seaborn
+ 3. Run Streamlit
 
-## ▶️ Run the App
 streamlit run app.py
 
-📌 Evaluation (Nationality Model)
-Class	Precision	Recall	F1-score
-African	1.00	0.04	0.07
-Indian	0.37	0.57	0.45
-Other	0.31	0.02	0.04
-United States	0.38	0.88	0.53
+## 📦 Repository Structure
 
-Overall Accuracy: ~38–50%
-(Reasonable due to race→nationality label conversion in FairFace.)
+```
+Nationality_Detection/
+│── app.py
+│── train_emotion.py
+│── train_nationality.py
+│── build_nationality_dataset.py
+│── prepare_emotion.py
+│── eval_nationality.py
+│── models/ (place .h5 files here)
+│── data/ (ignored in repository)
+│── FairFace/ (local only)
+│── README.md
+│── requirements.txt
+```
 
-## 🧩 Key Features
+## 🎯 Conclusion
 
-✔ MTCNN face detection
+This project successfully demonstrates a complete end-to-end AI pipeline combining:
 
-✔ Nationality classification (4-way)
+✔ Face detection
+✔ Deep learning classification
+✔ Multi-task prediction
+✔ Conditional output logic
+✔ A full GUI-based deployment
 
-✔ Emotion recognition (7-way)
+It is a strong example of practical computer vision engineering suitable for real-world use cases such as identity analytics, surveillance, and demographic insights.
 
-✔ Dress color via KMeans clustering
-
-✔ Age estimation placeholder
-
-✔ Conditional logic
-
-✔ Polished Streamlit UI
-
-✔ Offline-ready
-
-✔ Internship-grade system
-
-## 🚀 Future Improvements
-
-Real age regression model
-
-Better nationality dataset
-
-Gender classification
-
-Background removal
-
-TFLite/ONNX optimization
-
-Real-time webcam mode
-
-
-## 🏁 Conclusion
-
-This project demonstrates a complete end-to-end deep learning system, combining:
-
-Computer vision
-
-Multi-task learning
-
-Model training
-
-Dataset engineering
-
-UI/UX design
-
-Deployment skills
 
 
 ## Implementation video : [video](https://drive.google.com/file/d/1SDp7J5UU-akh5pnp5u4kxefXmPo7YvSU/view?usp=sharing)
