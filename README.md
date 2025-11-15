@@ -240,10 +240,7 @@ This project successfully demonstrates a complete end-to-end AI pipeline combini
 
 It is a strong example of practical computer vision engineering suitable for real-world use cases such as identity analytics, surveillance, and demographic insights.
 
+## Data and Visual output
 
-
-## Implementation video : [video](https://drive.google.com/file/d/1SDp7J5UU-akh5pnp5u4kxefXmPo7YvSU/view?usp=sharing)
-
-
-# THANK YOU
+[Drive Link](https://drive.google.com/drive/folders/19LaL5Su1U_7szUmiubmEdSyTIs973Dk6?usp=sharing)
 
